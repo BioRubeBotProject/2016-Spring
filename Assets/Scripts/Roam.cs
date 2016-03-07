@@ -15,6 +15,8 @@ public class Roam : MonoBehaviour {
 			randomY = Random.Range (_min, _max); //get random y vector coordinate
 			//apply a force to the object in direction (x,y):
 			Obj.GetComponent<Rigidbody2D> ().AddForce (new Vector2(randomX, randomY), ForceMode2D.Force);
+
+			//Obj.Transform.rotation = Quaternion.LookRotation (dir);
 		}
 	}
 
