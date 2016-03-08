@@ -55,8 +55,8 @@ public class CircleEdgeCollider2D : MonoBehaviour
       edgePoints[loop] = new Vector2(-Mathf.Sin(angle), Mathf.Cos(angle)) * (OuterRadius);
     }
     EdgeCollider.points = edgePoints;
-    CurrentInner = InnerRadius;
-    CurrentOuter = OuterRadius;
+    CurrentInner = InnerRadius + 1;
+    CurrentOuter = OuterRadius + 1;
   }
 }
 
