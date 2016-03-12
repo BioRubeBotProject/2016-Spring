@@ -163,12 +163,12 @@
     <Compile Include="Assets\Scripts\DEPRECIATED\movePhosphate.cs" />
     <Compile Include="Assets\Scripts\DEPRECIATED\moveT_Reg.cs" />
     <Compile Include="Assets\Scripts\DialogueBox.cs" />
+    <Compile Include="Assets\Scripts\DisableScreen.cs" />
     <Compile Include="Assets\Scripts\EventClass.cs" />
     <Compile Include="Assets\Scripts\ExternalReceptorProperties.cs" />
     <Compile Include="Assets\Scripts\ExtraCellularProperties.cs" />
     <Compile Include="Assets\Scripts\GDP_CmdCtrl.cs" />
     <Compile Include="Assets\Scripts\GTP_CmdCtrl.cs" />
-    <Compile Include="Assets\Scripts\GTP_Script2.cs" />
     <Compile Include="Assets\Scripts\G_ProteinCmdCtrl.cs" />
     <Compile Include="Assets\Scripts\GameSystem.cs" />
     <Compile Include="Assets\Scripts\HomeScreen.cs" />
@@ -196,9 +196,11 @@
     <Compile Include="Assets\Scripts\Tutorial.cs" />
     <Compile Include="Assets\Scripts\UIControl.cs" />
     <Compile Include="Assets\Scripts\Wander.cs" />
+    <Compile Include="Assets\Scripts\congratsOnOff.cs" />
     <Compile Include="Assets\Scripts\receptorScript.cs" />
     <Compile Include="Assets\Scripts\simpleMovement.cs" />
     <Compile Include="Assets\Scripts\smoothfollowCSharp.cs" />
+    <Compile Include="Assets\ToggleScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />

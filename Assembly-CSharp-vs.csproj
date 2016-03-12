@@ -129,12 +129,12 @@
      <Compile Include="Assets\Scripts\DEPRECIATED\movePhosphate.cs" />
      <Compile Include="Assets\Scripts\DEPRECIATED\moveT_Reg.cs" />
      <Compile Include="Assets\Scripts\DialogueBox.cs" />
+     <Compile Include="Assets\Scripts\DisableScreen.cs" />
      <Compile Include="Assets\Scripts\EventClass.cs" />
      <Compile Include="Assets\Scripts\ExternalReceptorProperties.cs" />
      <Compile Include="Assets\Scripts\ExtraCellularProperties.cs" />
      <Compile Include="Assets\Scripts\GDP_CmdCtrl.cs" />
      <Compile Include="Assets\Scripts\GTP_CmdCtrl.cs" />
-     <Compile Include="Assets\Scripts\GTP_Script2.cs" />
      <Compile Include="Assets\Scripts\G_ProteinCmdCtrl.cs" />
      <Compile Include="Assets\Scripts\GameSystem.cs" />
      <Compile Include="Assets\Scripts\HomeScreen.cs" />
@@ -162,9 +162,11 @@
      <Compile Include="Assets\Scripts\Tutorial.cs" />
      <Compile Include="Assets\Scripts\UIControl.cs" />
      <Compile Include="Assets\Scripts\Wander.cs" />
+     <Compile Include="Assets\Scripts\congratsOnOff.cs" />
      <Compile Include="Assets\Scripts\receptorScript.cs" />
      <Compile Include="Assets\Scripts\simpleMovement.cs" />
      <Compile Include="Assets\Scripts\smoothfollowCSharp.cs" />
+     <Compile Include="Assets\ToggleScript.cs" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Particle Shaders\Mobile Multiply Culled.shader" />
      <None Include="Assets\Standard Assets (Mobile)\Shaders\Miscellaneous Shaders\Mobile Background.shader" />
      <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />
@@ -188,7 +190,7 @@
      <None Include="Assets\AstarPathfindingProject\Plugins\JsonFx\Readme.txt" />
      <None Include="Assets\AstarPathfindingProject\link.xml" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/Randy/Desktop/2016-Spring/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/Shelley/Documents/Athens State/Spring 2016/CS 452 Software Engineering/2016-Spring/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
@@ -200,10 +202,10 @@
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.Ionic.Zip.Reduced">
- <HintPath>C:/Users/Randy/Desktop/2016-Spring/Assets/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+ <HintPath>C:/Users/Shelley/Documents/Athens State/Spring 2016/CS 452 Software Engineering/2016-Spring/Assets/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
  </Reference>
  <Reference Include="Pathfinding.JsonFx">
- <HintPath>C:/Users/Randy/Desktop/2016-Spring/Assets/AstarPathfindingProject/Plugins/JsonFx/Pathfinding.JsonFx.dll</HintPath>
+ <HintPath>C:/Users/Shelley/Documents/Athens State/Spring 2016/CS 452 Software Engineering/2016-Spring/Assets/AstarPathfindingProject/Plugins/JsonFx/Pathfinding.JsonFx.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
