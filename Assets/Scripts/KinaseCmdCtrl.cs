@@ -55,8 +55,8 @@ public class KinaseCmdCtrl : MonoBehaviour, Roam.CollectObject
 			timeoutForInteraction += Time.deltaTime;
 		} else if (tag == "Kinase_Prep_C") {
 			if(!midpointAchieved [0] || !midpointAchieved [1]){
-				midpointAchieved[0] = Roam.ProceedToVector(active_G_Protein,midpoint + new Vector3(0.0f,0.35f,0.0f));
-				midpointAchieved[1] = Roam.ProceedToVector(this.gameObject,midpoint + new Vector3(0.0f,-0.35f,0.0f));
+				midpointAchieved[0] = Roam.ProceedToVector(active_G_Protein,midpoint + new Vector3(0.0f,0.85f,0.0f)); //these values to be changed 
+				midpointAchieved[1] = Roam.ProceedToVector(this.gameObject,midpoint + new Vector3(0.0f,-0.85f,0.0f)); //for snapping kinase to gprotein
 			}
 			if(midpointAchieved[0] && midpointAchieved[1]) {
 				if((delay += Time.deltaTime) >= 3) {
