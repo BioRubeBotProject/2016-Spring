@@ -1,16 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections; 
+using System;									//for math
 
 public class GTP_CmdCtrl: MonoBehaviour
 {
 	//------------------------------------------------------------------------------------------------
 	#region Public Fields + Properties + Events + Delegates + Enums
 	public float maxHeadingChange;              // max possible rotation angle at a time
-	public float angleToRotate;                 // stores the angle in degrees between ATP and dock
+	public float angleToRotate;                 // stores the angle in degrees between GTP and dock
 	public int maxRoamChangeTime;               // how long before changing heading/speed
-	public int minSpeed;                        // slowest the ATP will move
-	public int maxSpeed;                        // fastest the ATP will move
-	public Transform origin;                    // origin location/rotation is the physical ATP
+	public int minSpeed;                        // slowest the GTP will move
+	public int maxSpeed;                        // fastest the GTP will move
+	public GameObject GTP1;					// transform GTP upon docking
+	public bool droppedOff = false;             // is phospate gone?
+	public bool found = false;                  // did this GTP find a dock?
+	public string trackingTag;                  // objects of this tag are searched for and tracked
+	public GameObject trackThis;                // the object with which to dock
+	public Transform origin;                    // origin location/rotation is the physical GTP
+	public Quaternion rotation;
+	public bool spin = false;
 	#endregion Public Fields + Properties + Events + Delegates + Enums
 	//------------------------------------------------------------------------------------------------
 	
@@ -49,57 +57,89 @@ public class GTP_CmdCtrl: MonoBehaviour
 		lastPosition = transform.position;			
 	}
 
+	private void Raycasting()
+	{
+		Vector3 trackCollider = trackThis.GetComponent<CircleCollider2D>().bounds.center;
+		RaycastHit2D collision = Physics2D.Linecast(origin.position, trackCollider);
+		
+		if(collision.collider.name == "Inner Cell Wall")
+		{
+			Vector3 collisionAngle = collision.normal;
+			Vector3 direction = trackCollider - origin.position;
+			Vector3 angle = Vector3.Cross(direction, collisionAngle);
+			if(angle.z < 0)                                   // track to the right of the nucleus
+			{ 
+				rotate = Quaternion.LookRotation(origin.position-trackCollider, trackThis.transform.right);
+				curveCounter = 90;
+			}
+			else                                              // track to the left of the nucleus
+			{ 
+				rotate = Quaternion.LookRotation(origin.position-trackCollider, -trackThis.transform.right);
+				curveCounter = -90;
+			}
+		}
+		else                                                // calculate approach vector
+		{            
+			float diffX = origin.position.x - trackCollider.x;
+			float diffY = origin.position.y - trackCollider.y;
+			float degrees = ((float)Math.Atan2(diffY, diffX) * (180 / (float)Math.PI) + 90);
+			transform.eulerAngles = new Vector3 (0, 0, degrees - curveCounter);
+			rotate = transform.localRotation;
+			if(curveCounter > 0) { curveCounter -= 1; }       // slowly rotate left until counter empty
+			else if(curveCounter < 0) {curveCounter += 1; }   // slowly rotate right until counter empty
+		}
+		transform.localRotation = new Quaternion(0,0,rotate.z, rotate.w);
+		transform.position += transform.up * Time.deltaTime * maxSpeed;
+		
+		angleToRotate = Vector3.Angle(trackThis.transform.up, transform.up);
+		Vector3 crossProduct = Vector3.Cross(trackThis.transform.up, transform.up);
+		if (crossProduct.z < 0) angleToRotate = -angleToRotate; // .Angle always returns a positive #
+	}
 
 	private void Roam2()
 	{
-		if (Time.timeScale != 0) 
-		{                               // if game not paused
-			roamCounter++;                                      
-			if (roamCounter > roamInterval) 
+		if(Time.timeScale != 0)                               // if game not paused
+		{
+			roamCounter++; 
+			rotate.z = heading -180;
+			if(roamCounter > roamInterval)                         
 			{                                                   
 				roamCounter = 0;
-				var floor = Mathf.Clamp (heading - maxHeadingChange, 0, 360);  
-				var ceiling = Mathf.Clamp (heading + maxHeadingChange, 0, 360);
-				roamInterval = UnityEngine.Random.Range (5, maxRoamChangeTime);   
-				movementSpeed = UnityEngine.Random.Range (minSpeed, maxSpeed);
-				//RaycastHit2D collision = Physics2D.Raycast(origin.position, origin.up);
-				heading = UnityEngine.Random.Range (floor, ceiling); 
-
-				//if(collision.collider != null &&                  // must check for instance first
-				//   collision.collider.name == "Cell Membrane(Clone)" &&
-				//   collision.distance < 2)
-				//{
-				if (heading <= 180) 
-				{ 
-					heading = heading + 180; 
-				} 
-				else 
-				{ 
-					heading = heading - 180; 
+				var floor = Mathf.Clamp(heading - maxHeadingChange, 0, 360);  
+				var ceiling = Mathf.Clamp(heading + maxHeadingChange, 0, 360);
+				roamInterval = UnityEngine.Random.Range(5, maxRoamChangeTime);   
+				movementSpeed = UnityEngine.Random.Range(minSpeed, maxSpeed);
+				RaycastHit2D collision = Physics2D.Raycast(origin.position, origin.up);
+				if(collision.collider != null &&                  // must check for instance first
+				   collision.collider.name == "Cell Membrane(Clone)" &&
+				   collision.distance < 2)
+				{
+					if(heading <= 180) { heading = heading + 180; }
+					else { heading = heading - 180; }
+					movementSpeed = maxSpeed;
+					roamInterval = maxRoamChangeTime;
 				}
-				movementSpeed = maxSpeed;
-				roamInterval = maxRoamChangeTime;
-				//}
-				//else 
-				//{ 
-				heading = UnityEngine.Random.Range (floor, ceiling); 
-				//}
+				else { heading = UnityEngine.Random.Range(floor, ceiling); }
 				headingOffset = (transform.eulerAngles.z - heading) / (float)roamInterval;
-				//}
-				//transform.eulerAngles = new Vector3 (0, 0, /*transform.eulerAngles.z - */headingOffset);
-				transform.position += transform.up * Time.deltaTime * movementSpeed;
 			}
+			transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z - headingOffset);
+			transform.position += transform.up * Time.deltaTime * movementSpeed;
 		}
-	}
+	}	
 
 	public void FixedUpdate() 
 	{
 		if (Time.timeScale > 0)
 		{ 
-			
+			if (spin) 
+			{
+				transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 2 * Time.deltaTime);
+				if (Quaternion.Angle(transform.rotation,rotation)==0 ) { spin = false; }
+			}
+			if(found == false) { Roam2(); }
 			if (!targeting)//Look for a target
 			{
-				//Roam2();
+				Roam2();
 				//rigidbody.AddForce(transform.forward);
 				Roam.Roaming (this.gameObject);
 				openTarget = Roam.FindClosest (transform, "DockedG_Protein");
@@ -132,9 +172,9 @@ public class GTP_CmdCtrl: MonoBehaviour
 	private Vector3 GetOffset()
 	{	
 		if (myTarget.GetChild(0).tag == "Left")
-			return myTarget.position + new Vector3 (-0.95f, 0.13f, 0);
+			return myTarget.position + new Vector3 (-2.2f, 0.28f, 0);
 		else
-			return myTarget.position + new Vector3 (0.95f, 0.13f, 0);
+			return myTarget.position + new Vector3 (2.2f, 0.28f, 0);
 	}
 	
 /*	LockOn retags the target 'DockedG_Protein' to 'Target' so it
@@ -175,6 +215,8 @@ public class GTP_CmdCtrl: MonoBehaviour
 	private void Cloak()
 	{
 		//GTP_Script2 ();
+		//GameObject obj = Instantiate(GTP1,gameObject.transform.position, Quaternion.identity) as GameObject;
+		//GameObject.Find("EventSystem").GetComponent<ObjectCollection>().Add (obj);
 		transform.GetComponent<CircleCollider2D> ().enabled = false;
 		transform.GetComponent<Rigidbody2D>().isKinematic = true;
 		transform.position = dockingPosition;

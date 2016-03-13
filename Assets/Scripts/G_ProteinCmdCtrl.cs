@@ -32,7 +32,7 @@ public class G_ProteinCmdCtrl : MonoBehaviour
 		lastPosition = transform.position;
 		
 		//Instantiate a GDP child to tag along
-		childGDP = (GameObject)Instantiate (GDP, transform.position + new Vector3(0.86f, 0.13f, 0), Quaternion.identity);
+		childGDP = (GameObject)Instantiate (GDP, transform.position + new Vector3(2.2f, 0.28f, 0), Quaternion.identity);
 		childGDP.GetComponent<CircleCollider2D> ().enabled = false;
 		childGDP.GetComponent<Rigidbody2D> ().isKinematic = true;
 		childGDP.transform.parent = transform;
@@ -97,17 +97,18 @@ public class G_ProteinCmdCtrl : MonoBehaviour
 /*	GetOffset determines whether a target is to the  left or right of the receptor
 	and based on the targets position, relative to the receptor, an offset is 
 	is figured into the docking position so the g-protein will mate up with the
-	receptor phosphate.  */
+	receptor phosphate.If resizing objects these values will have to be changed to ensure 
+	GDP snaps to G_Protein properly */
 	private Vector3 GetOffset()
 	{
 		if (myTarget.GetChild(0).tag == "Left")
 		{
 			//tag left G-Protein for GTP to reference in GTP_CmdCtrl.cs:
 			transform.GetChild(0).tag = "Left"; 
-			return myTarget.position + new Vector3 (-0.9f, -0.16f, myTarget.position.z);
+			return myTarget.position + new Vector3 (-2.2f, 0.285f, myTarget.position.z);
 		}
 		else
-			return myTarget.position + new Vector3 (0.9f, -0.16f, myTarget.position.z);
+			return myTarget.position + new Vector3 (2.2f, 0.285f, myTarget.position.z);
 	}
 
 /*	LockOn retags the target 'ReceptorPhosphate' to 'target' so it
@@ -143,7 +144,7 @@ public class G_ProteinCmdCtrl : MonoBehaviour
 			if (myTarget.GetChild(0).tag == "Left") {
 				//transform.Rotate(180.0f, 0.0f, 0.0f); //orientate protein for docking
 				//transform.Rotate(0.0f, 0.0f,180.0f);
-				childGDP.transform.position = childGDP.transform.position - (new Vector3(0.86f, 0.0f, 0.0f) * 2);
+				childGDP.transform.position = childGDP.transform.position - (new Vector3(2.2f, 0.28f, 0.0f) * 2);
 			}
 		}
 		return (transform.position==dockingPosition);

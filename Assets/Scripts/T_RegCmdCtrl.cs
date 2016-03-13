@@ -82,7 +82,7 @@ public class T_RegCmdCtrl : MonoBehaviour, Roam.CollectObject {
           midpointSet = true; 
         } 
         // Else Approach the midpoint, if this point has been achieved setup the next phase T_Reg_Prep_B
-        else if (Roam.ApproachMidpoint (active_Kinase_P2, this.gameObject, midpointAchieved, midpoint, new Vector3 (0.0f, 1.75f, 0.0f), 2.5f)) {
+        else if (Roam.ApproachMidpoint (active_Kinase_P2, this.gameObject, midpointAchieved, midpoint, new Vector3 (1.0f, 0.0f, 0.0f), 2.5f)) {
           delay = 0;
 
           // Disable Collider Components
